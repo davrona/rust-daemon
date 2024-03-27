@@ -50,7 +50,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Generate ECDSA keypair if --genkey flag is provided
     // For demonstration, generate a keypair here 
     if matches.get_flag("genkey") {
-        println!("Generate a new ECDSA keypair");
+        println!("Generating a new ECDSA keypair...");
         
         let wallet = LocalWallet::new(&mut thread_rng());
         let wallet = wallet.with_chain_id(1337u64);
@@ -70,7 +70,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         file::put_text("key.json", &json_data)?;
     } else {
-        println!("load ECDSA keypair from key file");
+        println!("Loading ECDSA keypair from key file...");
         let key_string = file::get_text("key.json")?;
         let key_pair: models::KeyPair = serde_json::from_str(&key_string)?;
         
