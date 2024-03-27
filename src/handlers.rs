@@ -1,3 +1,4 @@
+use ethers::abi::ethereum_types::Signature;
 use ethers::signers::{Signer, Wallet};
 use ethers::core::k256::ecdsa::SigningKey;
 
@@ -48,6 +49,32 @@ pub async fn prompt(data: PromptRequest) -> Result<impl warp::Reply, warp::Rejec
         }
     };
 
+    let wallet: Wallet<SigningKey> = WALLET.get().to_owned();
+    match wallet.sign_message(response.to_string()).await {
+        Ok(sign) => {
+            let answer = Answer {
+                answer: response,
+                signature: sign.to_string(),
+            };
+            Ok(warp::reply::json(&answer))
+        }
+        Err(err) => {
+            eprintln!("Signature Error: {}", err);
+            Err(warp::reject::reject())
+        }
+    }
+}
+
+// A function to handle POST requests at /prompt
+pub async fn promptandpush(data: PromptRequest) -> Result<impl warp::Reply, warp::Rejection> {
+    let response = match get_llm_response(data.prompt).await {
+        Ok(response) => response,
+        Err(err) => {
+            eprintln!("Error: {}", err);
+            return Err(warp::reject::reject())
+        }
+    };
+    
     let wallet: Wallet<SigningKey> = WALLET.get().to_owned();
     match wallet.sign_message(response.to_string()).await {
         Ok(sign) => {

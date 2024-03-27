@@ -2,6 +2,12 @@ use ethers::types::H160;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct KeyPair {
+    pub private: String,
+    pub public: String,
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Post {
     pub id: u64,
     pub title: String,

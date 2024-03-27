@@ -23,9 +23,14 @@ fn get_requests() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejec
         .and(prompt_request_json_body())
         .and_then(handlers::prompt);
 
+    let promptamdpush_route = warp::path("promptandpush")
+        .and(warp::post())
+        .and(prompt_request_json_body())
+        .and_then(handlers::promptandpush);
+
     let id_route = warp::path("id")
         .and(warp::get())
         .and_then(handlers::id);
 
-    posts_route.or(prompt_route).or(id_route)
+    posts_route.or(prompt_route).or(promptamdpush_route).or(id_route)
 }
