@@ -14,10 +14,6 @@ pub fn routes() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejecti
 
 // A route to handle GET requests for a specific post
 fn get_requests() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    let posts_route = warp::path!("posts" / u64)
-        .and(warp::get())
-        .and_then(handlers::get_post);
-
     let prompt_route = warp::path("prompt")
         .and(warp::post())
         .and(prompt_request_json_body())
@@ -32,5 +28,5 @@ fn get_requests() -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejec
         .and(warp::get())
         .and_then(handlers::id);
 
-    posts_route.or(prompt_route).or(promptamdpush_route).or(id_route)
+    prompt_route.or(promptamdpush_route).or(id_route)
 }

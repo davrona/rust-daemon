@@ -2,10 +2,8 @@ use ethers::abi::ethereum_types::Signature;
 use ethers::signers::{Signer, Wallet};
 use ethers::core::k256::ecdsa::SigningKey;
 
-use super::models::{Post, Answer, PromptRequest, ID};
+use super::models::{Answer, PromptRequest, ID};
 use super::{MODEL_NAME, OLLAMA ,WALLET};
-
-
 
 use ollama_rs::{
     generation::completion::{
@@ -13,17 +11,6 @@ use ollama_rs::{
     },
     Ollama,
 };
-
-// A function to handle GET requests at /posts/{id}
-pub async fn get_post(id: u64) -> Result<impl warp::Reply, warp::Rejection> {
-    // For simplicity, let's say we are returning a static post
-    let post: Post = Post {
-        id,
-        title: String::from("Hello, Warp!"),
-        body: String::from("This is a post about Warp."),
-    };
-    Ok(warp::reply::json(&post))
-}
 
 // A function to handle GET requests at /id
 pub async fn id() -> Result<impl warp::Reply, warp::Rejection> {

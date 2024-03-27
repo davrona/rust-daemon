@@ -8,13 +8,6 @@ pub struct KeyPair {
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
-pub struct Post {
-    pub id: u64,
-    pub title: String,
-    pub body: String,
-}
-
-#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct ID {
     pub public_key: H160,
     pub ip: String,
