@@ -14,7 +14,6 @@ use ollama_rs::{
 
 // A function to handle GET requests at /id
 pub async fn id() -> Result<impl warp::Reply, warp::Rejection> {
-    println!("llm_sadfasdf");
     let wallet: Wallet<SigningKey> = WALLET.get().to_owned();
     let my_ip = local_ipaddress::get().unwrap();
 
@@ -57,7 +56,7 @@ pub async fn promptandpush(data: PromptRequest) -> Result<impl warp::Reply, warp
     let response = match get_llm_response(data.prompt).await {
         Ok(response) => response,
         Err(err) => {
-            eprintln!("Error: {}", err);
+            eprintln!("LLM Error: {}", err);
             return Err(warp::reject::reject())
         }
     };
